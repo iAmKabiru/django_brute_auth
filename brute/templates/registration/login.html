@@ -1,0 +1,39 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="login-page">
+  <div class="form">
+    <form method="post" action="{% url 'login_url' %}">{% csrf_token %}
+    {% for error in form.non_field_errors %}
+      <div class="alert alert-danger">
+        <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+{{ request.META }}
+    {% for field in form %}
+      <div class="form-group">
+        <input id="{{ field.id_for_label }}" class="form-control" placeholder="{{ field.label }}" name="{{ field.html_name }}" {% if field.html_name == "username" %} autofocus="" type="text" {% else %} type="password" {% endif %} value="">
+      </div>
+    {% if form.errors %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+          {% endif %}
+              {% endfor %}
+              <input type="submit" class="btn btn-lg btn-success btn-block" value="SIGN IN">
+            </div>
+</body>
+<script type="text/javascript">
+  $('.message a').click(function(){
+   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+});
+</script>
+</html>
